@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<robot name="twin" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- WORLD -->
+  <link name="world"/>
+
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
+  <!-- BASE -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+    </inertial>
+  </link>
+
+  <!-- LINK 1 -->
+  <link name="link1">
+    <visual>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
+    </inertial>
+  </link>
+
+  <!-- JOINT 1 -->
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0.6981" upper="2.7925" effort="10" velocity="1"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+  <transmission name="joint_1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_1"/>
+    <actuator name="joint_1_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- LINK 2 -->
+  <link name="link2">
+    <visual>
+      <origin xyz="0.0 0.0025 -0.1526" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0025 -0.1526" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.5"/>
+      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
+    </inertial>
+  </link>
+
+  <!-- JOINT 2 -->
+  <joint name="joint_2" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin xyz="0.0 -0.0025 0.1526" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="1.2217" upper="1.7453" effort="10" velocity="1"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+  <transmission name="joint_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_2"/>
+    <actuator name="joint_2_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- LINK 3 -->
+  <link name="link3">
+    <visual>
+      <origin xyz="0.0 0.0185 -0.249" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0185 -0.249" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+    </inertial>
+  </link>
+
+  <!-- JOINT 3 -->
+  <joint name="joint_3" type="revolute">
+    <parent link="link2"/>
+    <child link="link3"/>
+    <origin xyz="0.0 -0.0175 0.0964" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.14" upper="3.14" effort="10" velocity="1"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+  <transmission name="joint_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_3"/>
+    <actuator name="joint_3_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- RIGHT GRIPPER -->
+  <link name="right_gripper">
+    <visual>
+      <origin xyz="0 -0.008 -0.37" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/right_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.008 -0.37" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/right_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <!-- LEFT GRIPPER -->
+  <link name="left_gripper">
+    <visual>
+      <origin xyz="0 0.008 -0.37" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/left_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.008 -0.37" rpy="0 0 1.5708"/>
+      <geometry>
+        <mesh filename="package://twin_description/meshes/left_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <!-- JOINT 4 RIGHT GRIPPER -->
+  <joint name="joint_4" type="revolute">
+    <parent link="link3"/>
+    <child link="right_gripper"/>
+    <origin xyz="0.0 0.023 0.10" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="1.2217" upper="1.7453" effort="10" velocity="1"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+  <transmission name="joint_4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_4"/>
+    <actuator name="joint_4_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- JOINT 5 LEFT GRIPPER MIMIC -->
+  <joint name="joint_5" type="revolute">
+    <parent link="link3"/>
+    <child link="left_gripper"/>
+    <origin xyz="0.0 0.007 0.10" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.7453" upper="-1.2217" effort="10" velocity="1"/>
+    <mimic joint="joint_4" multiplier="-1"/>
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+  <!-- No transmission for mimic joint -->
+
+</robot>

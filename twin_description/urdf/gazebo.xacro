@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="twin">
+
+  <xacro:arg name="is_ignition" default="true"/>
+
+  <!-- ROS 2 Humble -->
+  <gazebo>
+    <xacro:if value="$(arg is_ignition)">
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find twin_description)/config/controllers.yaml</parameters>
+      </plugin>
+    </xacro:if>
+
+    <!-- ROS 2 Iron or above -->
+    <xacro:unless value="$(arg is_ignition)">
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find twin_description)/config/controllers.yaml</parameters>
+      </plugin>
+    </xacro:unless>
+  </gazebo>
+
+</robot>
